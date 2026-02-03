@@ -7,10 +7,14 @@ connectDB();
 // start server
 const PORT = process.env.PORT || 4000;
 
-const server = app.listen(PORT,()=>{
-    console.log(`server is running on port ${PORT}`);
-    
-})
+const server = app.listen(PORT, () => {
+  console.log(`server is running on port ${PORT}`);
+});
 
 // error handling
-// process.on(un)
+process.on("unhandledRejection", (err) => {
+  console.error(`Unhandled Rejection : ${err.message}`);
+  process.exit(1);
+});
+
+export default server;
