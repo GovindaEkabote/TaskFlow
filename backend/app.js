@@ -3,10 +3,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from 'dotenv';
 import { errorHandler } from "./middlewares/error.js";
-
+import router from "./routes/auth.routes.js";
 
 dotenv.config();
-console.log(process.env.FRONTEND_URL);
 const app = express();
 app.use(
   cors({
@@ -16,10 +15,10 @@ app.use(
   }),
 );
 app.use(cookieParser());
-app.use(express.json);
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use('/api/v1', router)
 
 
 

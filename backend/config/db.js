@@ -5,7 +5,7 @@ const connectDB = async () => {
     mongoose.set("strictQuery", true);
 
     const conn = await mongoose.connect(process.env.DATABASE_URL, {
-      dbName: "ProjectPilot",
+      dbName: "PMS",
       autoIndex: false,          // disable in production
       maxPoolSize: 10,           // connection pool
       serverSelectionTimeoutMS: 5000,
