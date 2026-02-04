@@ -34,6 +34,18 @@ export const login = asyncHandler(async (req, res, next) => {
   generateToken(user, 200, "Login successful", res);
 });
 export const getUser = asyncHandler(async (req, res, next) => {});
-export const logout = asyncHandler(async (req, res, next) => {});
+export const logout = asyncHandler(async (req, res, next) => {
+   res
+    .status(200)
+    .cookie("token", "", {
+      expires: new Date(0), // immediately expire
+      httpOnly: true,
+      sameSite: "strict",
+    })
+    .json({
+      success: true,
+      message: "Logged out successfully",
+    });
+});
 export const forgotPassword = asyncHandler(async (req, res, next) => {});
 export const resetPassword = asyncHandler(async (req, res, next) => {});
