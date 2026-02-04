@@ -11,16 +11,29 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   }
   let user = await User.findOne({ email });
   if (user) {
-    return next(new errorHandler("User Already Exists", 404));
+    return next(new errorHandler("User Already Exists", 409));
   }
   user = new User({ name, email, password, role });
   await user.save();
   generateToken(user, 201, "User register successfully", res);
 });
 
-
-export const login = asyncHandler(async(req,res,next) => {});
-export const getUser = asyncHandler(async(req,res,next) => {});
-export const logout = asyncHandler(async(req,res,next) => {});
-export const forgotPassword = asyncHandler(async(req,res,next) => {});
-export const resetPassword = asyncHandler(async(req,res,next) => {});
+export const login = asyncHandler(async (req, res, next) => {
+  const { email, password, role } = req.body;
+  if (!email || !password || !role) {
+    return next(new errorHandler("Please provide all required fields", 400));
+  }
+  let user = await User.findOne({ email, role }).select("+password");
+  if (!user) {
+    return next(new errorHandler("Invalid email aand password", 401));
+  }
+  const isPasswordMatched = await user.comparePassword(password);
+  if (!isPasswordMatched) {
+    return next(new errorHandler("Invalid email or password", 401));
+  }
+  generateToken(user, 200, "Login successful", res);
+});
+export const getUser = asyncHandler(async (req, res, next) => {});
+export const logout = asyncHandler(async (req, res, next) => {});
+export const forgotPassword = asyncHandler(async (req, res, next) => {});
+export const resetPassword = asyncHandler(async (req, res, next) => {});
