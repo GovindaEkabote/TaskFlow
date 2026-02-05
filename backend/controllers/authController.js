@@ -33,11 +33,20 @@ export const login = asyncHandler(async (req, res, next) => {
   }
   generateToken(user, 200, "Login successful", res);
 });
+
 export const getUser = asyncHandler(async (req, res, next) => {
-  
+  const user = await User.find();
+  if (!user) {
+    return next(new errorHandler("No data", 404));
+  }
+  res.status(200).json({
+    success: true,
+    user,
+  });
 });
+
 export const logout = asyncHandler(async (req, res, next) => {
-   res
+  res
     .status(200)
     .cookie("token", "", {
       expires: new Date(0), // immediately expire
