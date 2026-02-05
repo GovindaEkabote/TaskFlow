@@ -33,7 +33,9 @@ export const login = asyncHandler(async (req, res, next) => {
   }
   generateToken(user, 200, "Login successful", res);
 });
-export const getUser = asyncHandler(async (req, res, next) => {});
+export const getUser = asyncHandler(async (req, res, next) => {
+  
+});
 export const logout = asyncHandler(async (req, res, next) => {
    res
     .status(200)
